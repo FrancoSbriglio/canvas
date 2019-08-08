@@ -72,50 +72,50 @@ constructor( public navCtrl: NavController,  private storage: Storage, public re
   selectColor(color) {
     this.selectedColor = color;
   }
-   
+
   startDrawing(ev) {
-    var canvasPosition = this.canvasElement.getBoundingClientRect();
-   
+    const canvasPosition = this.canvasElement.getBoundingClientRect();
+
     this.saveX = ev.touches[0].pageX - canvasPosition.x;
     this.saveY = ev.touches[0].pageY - canvasPosition.y;
   }
-   
+
   moved(ev) {
-    var canvasPosition = this.canvasElement.getBoundingClientRect();
-   
-    let ctx = this.canvasElement.getContext('2d');
-    let currentX = ev.touches[0].pageX - canvasPosition.x;
-    let currentY = ev.touches[0].pageY - canvasPosition.y;
-   
+    const canvasPosition = this.canvasElement.getBoundingClientRect();
+
+    const ctx = this.canvasElement.getContext('2d');
+    const currentX = ev.touches[0].pageX - canvasPosition.x;
+    const currentY = ev.touches[0].pageY - canvasPosition.y;
+
     ctx.lineJoin = 'round';
     ctx.strokeStyle = this.selectedColor;
     ctx.lineWidth = 5;
-   
+
     ctx.beginPath();
     ctx.moveTo(this.saveX, this.saveY);
     ctx.lineTo(currentX, currentY);
     ctx.closePath();
-   
+
     ctx.stroke();
-   
+
     this.saveX = currentX;
     this.saveY = currentY;
   }
-   
-   
+
+
   saveCanvasImage() {
-    var dataUrl = this.canvasElement.toDataURL();
-   
-    let ctx = this.canvasElement.getContext('2d');
+    const dataUrl = this.canvasElement.toDataURL();
+
+    const ctx = this.canvasElement.getContext('2d');
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height); // Clears the canvas
-   
-    let name = new Date().getTime() + '.png';
-    let path = this.file.dataDirectory;
-    let options: IWriteOptions = { replace: true };
-   
-    var data = dataUrl.split(',')[1];
-    let blob = this.b64toBlob(data, 'image/png');
-   
+
+    const name = new Date().getTime() + '.png';
+    const path = this.file.dataDirectory;
+    const options: IWriteOptions = { replace: true };
+
+    const data = dataUrl.split(',')[1];
+    const blob = this.b64toBlob(data, 'image/png');
+
     this.file.writeFile(path, name, blob, options).then(res => {
       this.storeImage(name);
     }, err => {
@@ -125,23 +125,23 @@ constructor( public navCtrl: NavController,  private storage: Storage, public re
   // https://forum.ionicframework.com/t/save-base64-encoded-image-to-specific-filepath/96180/3
   b64toBlob(b64Data, contentType) {
     contentType = contentType || '';
-    var sliceSize = 512;
-    var byteCharacters = atob(b64Data);
-    var byteArrays = [];
-   
+    const sliceSize = 512;
+    const byteCharacters = atob(b64Data);
+    const byteArrays = [];
+
     for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
-      var slice = byteCharacters.slice(offset, offset + sliceSize);
-   
+      const slice = byteCharacters.slice(offset, offset + sliceSize);
+
       var byteNumbers = new Array(slice.length);
       for (var i = 0; i < slice.length; i++) {
         byteNumbers[i] = slice.charCodeAt(i);
       }
-   
+
       var byteArray = new Uint8Array(byteNumbers);
-   
+
       byteArrays.push(byteArray);
     }
-   
+
     var blob = new Blob(byteArrays, { type: contentType });
     return blob;
   }
