@@ -1,9 +1,10 @@
-import { Component, OnInit, ViewChild, Renderer } from '@angular/core';
+import { Component, OnInit, ViewChild, Renderer, Renderer2 } from '@angular/core';
 import { NavController, Platform } from '@ionic/angular'; // aca normalize
-import { File, IWriteOptions } from '@ionic-native/file';
+
 import { Storage } from '@ionic/storage';
 import { IonContent } from '@ionic/angular';
-import { inject } from '@angular/core/testing';
+import { File } from '@ionic-native/file';
+
 
 
 
@@ -13,7 +14,7 @@ const STORAGE_KEY = 'IMAGE_LIST';
 @Component({ // aca
   selector: 'app-home',
   templateUrl: 'home.page.html',
- // styleUrls: ['home.page.scss']
+  styleUrls: ['home.page.scss']
 })
 export class HomePage  {
   @ViewChild('imageCanvas', {static: false}) canvas: any;
@@ -26,7 +27,7 @@ export class HomePage  {
   storedImages = [];
 
 // tslint:disable-next-line: max-line-length
-constructor( public navCtrl: NavController, private file: File, private storage: Storage, public renderer: Renderer, private plt: Platform) {
+constructor(private file: File, public navCtrl: NavController, private storage: Storage, public renderer: Renderer, private plt: Platform ) {
   // Load all stored images when the app is ready
   this.storage.ready().then(() => {
     this.storage.get(STORAGE_KEY).then(data => {
