@@ -1,15 +1,13 @@
 import { Component, OnInit, ViewChild, Renderer, Renderer2 } from '@angular/core';
 import { NavController, Platform } from '@ionic/angular'; // aca normalize
-<<<<<<< HEAD
+//import { normalizeURL } from '@ionic/angular';
 
 import { Storage } from '@ionic/storage';
 import { IonContent } from '@ionic/angular';
 import { File } from '@ionic-native/file';
-=======
-// import { File, IWriteOptions } from '@ionic-native/file';
-import { Storage } from '@ionic/storage';
-import { IonContent } from '@ionic/angular';
->>>>>>> 3c34107deedbe9537b0359d6003f4a4d46f9aebd
+import { IWriteOptions } from '@ionic-native/file';
+
+
 
 
 
@@ -20,11 +18,8 @@ const STORAGE_KEY = 'IMAGE_LIST';
 @Component({ // aca
   selector: 'app-home',
   templateUrl: 'home.page.html',
-<<<<<<< HEAD
-  styleUrls: ['home.page.scss']
-=======
   styleUrls: ['home.page.scss'],
->>>>>>> 3c34107deedbe9537b0359d6003f4a4d46f9aebd
+
 })
 
 export class HomePage  {
@@ -37,12 +32,11 @@ export class HomePage  {
 
   storedImages = [];
 
+
+
 // tslint:disable-next-line: max-line-length
-<<<<<<< HEAD
 constructor(private file: File, public navCtrl: NavController, private storage: Storage, public renderer: Renderer, private plt: Platform ) {
-=======
-constructor( public navCtrl: NavController,  private storage: Storage, public renderer: Renderer, private plt: Platform) {
->>>>>>> 3c34107deedbe9537b0359d6003f4a4d46f9aebd
+
   // Load all stored images when the app is ready
   this.storage.ready().then(() => {
     this.storage.get(STORAGE_KEY).then(data => {
@@ -67,14 +61,14 @@ constructor( public navCtrl: NavController,  private storage: Storage, public re
   colors = [ '#9e2956', '#c2281d', '#de722f', '#edbf4c', '#5db37e', '#459cde', '#4250ad', '#802fa3' ];
 
 
-  ionViewDidEnter() {
+    async ionViewDidEnter() {
     // https://github.com/ionic-team/ionic/issues/9071#issuecomment-362920591
     // Get the height of the fixed item
-    let itemHeight = this.fixedContainer.nativeElement.offsetHeight;
-    const scroll = this.content.getScrollElement();
+    let itemHeight =  this.fixedContainer.nativeElement.offsetHeight;
+    const scroll = await this.content.getScrollElement();
 
     // Add preexisting scroll margin to fixed container size
-    itemHeight = Number.parseFloat(scroll.style.marginTop.replace('px', '')) + itemHeight;
+     itemHeight = Number.parseFloat(scroll.style.marginTop.replace('px', '')) + itemHeight;
     scroll.style.marginTop = itemHeight + 'px';
   }
 
@@ -160,5 +154,31 @@ constructor( public navCtrl: NavController,  private storage: Storage, public re
     var blob = new Blob(byteArrays, { type: contentType });
     return blob;
   }
-}
 
+  storeImage(imageName) {
+    let saveObj = { img: imageName };
+    this.storedImages.push(saveObj);
+    this.storage.set(STORAGE_KEY, this.storedImages).then(() => {
+      setTimeout(() =>  {
+        this.content.scrollToBottom();
+      }, 500);
+    });
+  }
+   
+  removeImageAtIndex(index) {
+    let removed = this.storedImages.splice(index, 1);
+    this.file.removeFile(this.file.dataDirectory, removed[0].img).then(res => {
+    }, err => {
+      console.log('remove err; ' ,err);
+    });
+    this.storage.set(STORAGE_KEY, this.storedImages);
+  }
+   
+ // getImagePath(imageName) {
+   // let path = this.file.dataDirectory + imageName;
+    // https://ionicframework.com/docs/wkwebview/#my-local-resources-do-not-load
+   // path = normalizeURL(path);
+   // return path;
+ // }
+
+}
