@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, Renderer, Renderer2 } from '@angular/core';
 import { NavController, Platform } from '@ionic/angular'; // aca normalize
-//import { normalizeURL } from '@ionic/angular';
+// import { normalizeURL } from '@ionic/angular';
 
 import { Storage } from '@ionic/storage';
 import { IonContent } from '@ionic/angular';
@@ -173,12 +173,11 @@ constructor(private file: File, public navCtrl: NavController, private storage: 
     });
     this.storage.set(STORAGE_KEY, this.storedImages);
   }
-   
- // getImagePath(imageName) {
-   // let path = this.file.dataDirectory + imageName;
+  getImagePath(imageName) {
+    let path = this.file.dataDirectory + imageName;
     // https://ionicframework.com/docs/wkwebview/#my-local-resources-do-not-load
    // path = normalizeURL(path);
-   // return path;
- // }
+   return path;
+  }
 
 }
