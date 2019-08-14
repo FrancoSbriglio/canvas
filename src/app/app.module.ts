@@ -12,6 +12,7 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { IonicStorageModule, Storage } from '@ionic/storage';
 import { File } from '@ionic-native/file';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 
@@ -22,7 +23,8 @@ import { File } from '@ionic-native/file';
     BrowserModule,
     IonicModule.forRoot(),
     AppRoutingModule,
-    IonicStorageModule.forRoot()
+    IonicStorageModule.forRoot(),
+    NgbModule.forRoot()
   ],
   providers: [
     StatusBar,

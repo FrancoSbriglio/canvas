@@ -164,12 +164,11 @@ constructor(private file: File, public navCtrl: NavController, private storage: 
       }, 500);
     });
   }
-   
   removeImageAtIndex(index) {
     let removed = this.storedImages.splice(index, 1);
     this.file.removeFile(this.file.dataDirectory, removed[0].img).then(res => {
     }, err => {
-      console.log('remove err; ' ,err);
+      console.log('remove err; ' , err);
     });
     this.storage.set(STORAGE_KEY, this.storedImages);
   }
@@ -177,7 +176,7 @@ constructor(private file: File, public navCtrl: NavController, private storage: 
     let path = this.file.dataDirectory + imageName;
     // https://ionicframework.com/docs/wkwebview/#my-local-resources-do-not-load
    // path = normalizeURL(path);
-   return path;
+    return path;
   }
 
 }
